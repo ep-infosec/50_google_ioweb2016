@@ -1,0 +1,42 @@
+{
+  "rules": {
+    "users": {
+      ".indexOn": ["last_activity_timestamp", "used_web_app", "web_notifications_enabled"],
+      "$user_id": {
+        ".read": "$user_id === auth.uid",
+        ".write": "$user_id === auth.uid",
+        "last_activity_timestamp": {
+          ".validate": "(!data.exists() || newData.val() > data.val()) && (newData.val() < now + 600000)"
+        },
+        "used_web_app": {
+          ".validate": "newData.val() === true"
+        },
+        "web_notifications_enabled": {
+          ".validate": "newData.val() === true || newData.val() === false"
+        }
+      }
+    },
+    "data": {
+      ".indexOn": "gcm_key",
+      "$user_id": {
+        ".read": "$user_id === auth.uid",
+        ".write": "$user_id === auth.uid",
+        "viewed_videos": {
+          "$viewed_video_id": {
+            ".validate": "newData.val() === true"
+          }
+        },
+        "my_sessions": {
+          "$session_id": {
+            ".validate": "(!data.exists() || newData.child('timestamp').val() > data.child('timestamp').val()) && (newData.child('timestamp').val() < now + 600000)"
+          }
+        },
+        "feedback_submitted_sessions": {
+          "$session_id": {
+            ".validate": "!data.exists() && newData.val() === true"
+          }
+        }
+      }
+    }
+  }
+}

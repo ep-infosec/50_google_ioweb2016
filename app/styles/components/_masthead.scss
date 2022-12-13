@@ -1,0 +1,430 @@
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import '../base/layout';
+
+
+&.io-live-mode {
+  #navbar {
+    color: #fff;
+  }
+  #navbar .io-logo {
+    opacity: 1 !important;
+    background-image: url('../images/io-logo-white.png');
+  }
+}
+
+.io-logo {
+  display: inline-block;
+  background: url('../images/io.png') no-repeat;
+  background-size: contain;
+  height: 40px;
+  width: 60px;
+  transition: opacity 200ms ease-in-out;
+  will-change: opacity;
+}
+
+.masthead {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  .header_subnav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+}
+
+.masthead-meta {
+  // opacity: 0;  // Initial opacity, fades in on load.
+
+  h1 {
+    color: $color-bluegrey-400;
+    margin-bottom: 9px;
+    font-weight: 400;
+    font-size: 56px;
+
+    @media (max-width: $tablet-breakpoint-max) {
+      font-size: 45px;
+    }
+
+    @media (max-width: $phone-breakpoint-max) {
+      font-size: 34px;
+    }
+  }
+}
+
+#mainScrollingRegion {
+  padding-top: $navbarHeight;
+}
+
+#appdrawer {
+  font-size: 14px;
+  font-weight: 500;
+
+  .drawer-container {
+    height: 100%;
+
+    paper-toolbar {
+      background-color: $color-cyan-300;
+
+      .io-logo {
+        background-image: url('../images/io-logo-white.png');
+      }
+
+      .bottom {
+        font-size: 14px;
+        line-height: 20px;
+        color: #1E535A;
+      }
+    }
+    .drawer-menu {
+      color: $color-bluegrey-600;
+      overflow-y: auto;
+      padding-top: 8px;
+      -webkit-overflow-scrolling: touch;
+
+      a {
+        display: block;
+        outline: 0;
+
+        &.iron-selected {
+          background-color: $color-bluegrey-50;
+        }
+
+        paper-item {
+          font-size: inherit;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+
+paper-tabs {
+  paper-tab {
+    border-bottom: 2px solid transparent;
+  }
+}
+
+#navbar {
+  background-color: transparent;
+  color: $color-bluegrey-600;
+
+  padding: 0 8px;
+
+  height: $navbarHeight;
+
+  [disabled] {
+    pointer-events: none;
+  }
+
+  paper-tabs {
+    display: none;
+    text-transform: uppercase;
+    height: 100%;
+  }
+
+  paper-tab {
+    padding: 0;
+
+    &:hover {
+      border-bottom: 2px solid $color-bluegrey-100;
+    }
+
+    a {
+      height: 100%; // make sure entire tab is a link
+      flex: inherit; // Needed for IE11, in order to ensure that the <a> gets assigned a width.
+      padding: 0 12px;
+    }
+
+    &.iron-selected {
+      pointer-events: none;
+    }
+  }
+
+  paper-menu-button {
+    padding: 0;
+  }
+}
+
+#signin-nav-elements {
+  height: 100%;
+
+  & > .button-link {
+    height: 100%;
+    padding: 16px 12px;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      border-bottom: 2px solid $color-bluegrey-100;
+    }
+  }
+
+  & > .profilepic {
+    margin-left: $mobileKeyline / 2;
+  }
+
+  & > paper-menu-button > iron-dropdown {
+    max-width: 90%;
+  }
+}
+
+#signin-settings-panel {
+  width: 344px;
+  max-width: 100%;
+  color: $color-text;
+  font-size: 14px;
+  line-height: 18px;
+
+  iron-label, label {
+    padding: $mobileKeyline 0;
+    cursor: pointer;
+  }
+
+  ul {
+    padding-left: $mobileKeyline;
+    margin: 0;
+  }
+
+  .profilepic {
+    margin-right: $mobileKeyline / 2;
+  }
+
+  .card__title {
+    padding-bottom: $mobileKeyline !important;
+  }
+
+  .card-content {
+    padding: $mobileKeyline !important;
+
+    &:first-child {
+      padding-bottom: 0;
+    }
+
+    &:not(:last-child) {
+      $color-light-grey-border: #eaeaea;
+      border-bottom: 1px solid $color-light-grey-border;
+    }
+
+    &:last-child {
+      padding: $tabletKeyline $mobileKeyline;
+    }
+  }
+
+  paper-checkbox {
+    margin-right: $mobileKeyline;
+  }
+
+  a, .anchor-like {
+    color: $color-cyan-800;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+
+  .settings-note {
+    margin-top: 8px;
+  }
+}
+
+.masthead-container {
+  height: 168px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 0 48px 0;
+  @include keyline-16l();
+
+  paper-tabs {
+    text-transform: uppercase;
+
+    paper-tab {
+      flex: none;
+    }
+  }
+  paper-tab[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  paper-dropdown-menu {
+    @include typo-button();
+    margin: 0;
+    padding: 0;
+    border: none;
+    paper-menu {
+      margin: 0;
+    }
+    paper-item {
+      font-size: inherit;
+    }
+  }
+}
+
+.masthead-title {
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.masthead-subtitle {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.subpage__nav {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  height: $subnavHeight;
+}
+
+#subpage-tabs {
+  color: $color-bluegrey-800;
+  height: 100%;
+
+  paper-tab {
+    text-transform: uppercase;
+
+    &:hover {
+      border-bottom: 2px solid currentcolor;
+    }
+  }
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  #navbar {
+    height: $navbarHeightMobile;
+
+    > .profilepic {
+      display: none;
+    }
+    .io-logo {
+      display: none;
+    }
+    paper-icon-button[focused] {
+      background: transparent;
+    }
+  }
+
+  #mainScrollingRegion {
+    padding-top: $navbarHeightMobile;
+  }
+}
+
+@media (min-width: $tablet-breakpoint-min) {
+  .masthead-container {
+    height: 236px;
+  }
+
+  #navbar {
+    @include keyline-32();
+    margin-right: -12px; // adjust for padding.
+
+    paper-tabs {
+      display: inline-block;
+    }
+    [paper-drawer-toggle] {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: $desktop-breakpoint-min) {
+  #navbar {
+    @include keyline-40();
+  }
+}
+
+
+@media (min-width: $tablet-breakpoint-min) {
+  .masthead-container {
+    @include keyline-24l();
+  }
+  #subpage-tabs {
+    @include keyline-24l();
+    // Justify tab text with title by counterattacking paper-tab padding.
+    margin-left: -12px;
+  }
+}
+
+@media (min-width: 961px) {
+  $container-max-width: 960px;
+
+  .masthead .subpage__nav,
+  .masthead-container,
+  .filters__panel {
+    max-width: $container-max-width;
+    @include keyline-32l();
+  }
+
+  #subpage-tabs {
+    @include keyline-32l();
+  }
+}
+
+@media (min-width: 1305px) {
+  $container-max-width: 1160px;
+
+  .masthead .subpage__nav,
+  .masthead-container,
+  .filters__panel {
+    max-width: $container-max-width;
+    @include keyline-40l();
+  }
+
+  #subpage-tabs {
+    @include keyline-40l();
+  }
+}
+
+@media (min-width: 1501px) {
+  $container-max-width: 1280px;
+
+  .masthead .subpage__nav,
+  .masthead-container,
+  .filters__panel {
+    max-width: $container-max-width;
+    @include keyline-48l();
+  }
+
+  #subpage-tabs {
+    @include keyline-48l();
+  }
+}
+
+@media (min-width: 1601px) {
+  $container-max-width: 1440px;
+
+  .masthead .subpage__nav,
+  .masthead-container,
+  .filters__panel {
+    max-width: $container-max-width;
+  }
+}
+
+@media (min-width: 1801px) {
+  $container-max-width: 1600px;
+
+  .masthead .subpage__nav,
+  .masthead-container,
+  .filters__panel {
+    max-width: $container-max-width;
+  }
+}

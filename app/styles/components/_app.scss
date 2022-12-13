@@ -1,0 +1,475 @@
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import '../base/vars';
+@import '../base/typography';
+
+html {
+  height: 100%;
+}
+
+html, body {
+  color:  $color-text;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  @include typo-body();
+}
+
+body {
+  overflow-x: hidden;
+
+  &.loading {
+    overflow: hidden;
+
+    #splash {
+      opacity: 1;
+    }
+  }
+}
+
+#splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 300ms cubic-bezier(0,0,0.2,1);
+  opacity: 0;
+  will-change: opacity;
+  background: url(../images/hash.png) no-repeat 50% 50%;
+  background-size: 250px;
+  background-color: $color-bluegrey-50;
+ }
+
+.anchor-like {
+  @include typo-button();
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cta-button {
+  width: 133px;
+  background: #fff;
+  color: $color-bluegrey-800;
+  font-size: 14px;
+  line-height: 14px;
+  margin: $mobileKeyline 0 0 0;
+  border-radius: 2px;
+
+  &:hover {
+    @include shadow-z1();
+  }
+}
+
+.strong {
+  font-weight: bold;
+}
+
+.fit, [fit] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.relative, [relative] {
+  position: relative;
+}
+
+li {
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0 0 8px 0;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+}
+
+h1 {
+  @include typo-heading-1();
+}
+h2 {
+  @include typo-heading-2();
+}
+h3 {
+  @include typo-heading-3();
+}
+h4 {
+  @include typo-heading-4();
+}
+h5 {
+  @include typo-heading-5();
+}
+h6 {
+  @include typo-heading-6();
+}
+
+
+paper-progress {
+  width: 100%;
+  height: 2px;
+}
+
+.typo-white {
+  color: #fff;
+}
+
+.typo-black {
+  color: #000;
+}
+
+.typo-cyan-400 {
+  color: $color-cyan-400;
+}
+
+.typo-cyan-800 {
+  color: $color-cyan-800;
+}
+
+.typo-cyan-700 {
+  color: $color-cyan-700;
+}
+
+.typo-indigo-400 {
+  color: $color-indigo-400;
+}
+
+.hide-on-mobile {
+  display: none;
+}
+
+.profilepic {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  margin-right: 0;
+}
+
+.link-spacing {
+  > a {
+    margin-right: $desktopKeyline;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+.bg-white {
+  background-color: #fff;;
+}
+
+.bg-cyan-200 {
+  background-color: $color-cyan-200;
+}
+
+.bg-cyan-300 {
+  background-color: $color-cyan-300;
+}
+
+.bg-cyan-400 {
+  background-color: $color-cyan-400;
+}
+
+.bg-grey-50 {
+  background-color: $color-grey-50;
+}
+
+.bg-grey-100 {
+  background-color: $color-grey-100;
+}
+
+.bg-bluegrey-50 {
+  background-color: $color-bluegrey-50;
+}
+
+.bg-bluegrey-50-20 {
+  background-color: rgba($color-bluegrey-50, 0.2);
+}
+
+.bg-bluegrey-50-30 {
+  background-color: rgba($color-bluegrey-50, 0.3)
+}
+
+.bg-bluegrey-50-40 {
+  background-color: rgba($color-bluegrey-50, 0.4);
+}
+
+.bg-bluegrey-50-60 {
+  background-color: rgba($color-bluegrey-50, 0.6);
+}
+
+.bg-bluegrey-200 {
+  background-color: $color-bluegrey-200;
+}
+
+.bg-bluegrey-600 {
+  background-color: $color-bluegrey-600;
+}
+
+.bg-bluegrey-700 {
+  background-color: $color-bluegrey-700;
+}
+
+.bg-indigo-300 {
+  background-color: $color-indigo-300;
+}
+
+.bg-indigo-400 {
+  background-color: $color-indigo-400;
+}
+
+.bg-amber-400 {
+  background-color: $color-amber-400;
+}
+
+.bg-lightgreen-600 {
+  background-color: $color-lightgreen-600;
+}
+
+.bg-red-A200 {
+  background-color: $color-red-A200;
+}
+
+.navbar__overlay {
+  position: fixed !important;  // iOS
+  font-size: 20px;
+  font-weight: 500;
+  background: rgba(0,0,0,0.5) !important;
+  color: #fff;
+  text-transform: uppercase;
+  transition: transform 400ms cubic-bezier(0,0,0.2,1);
+  will-change: transform;
+  transform: translateY(-100%);
+
+  &.active {
+    transform: translateY(0);
+  }
+}
+
+.page__section {
+  @include keyline-16();
+  padding-top: $desktopKeyline;
+  padding-bottom: $desktopKeyline;
+}
+
+.page__section--copy {
+  padding: 0 0 $mobileKeyline 0 !important;
+
+  a {
+    font-size: inherit !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+  }
+}
+
+.io__hash {
+  display: inline-block;
+  background-image: url(../images/hash.png);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: contain;
+}
+
+// .io-main {
+//   .slide-up-delay {
+//     transform: translateY(100px);
+//     opacity: 0;
+//     will-change: transform, opacity;
+//   }
+
+//   .slide-up {
+//     transform: translateY(100px);
+//     opacity: 0;
+//     position: relative;
+//     will-change: transform, opacity;
+//   }
+// }
+
+.fullvideo__container {
+  transform-origin: 0 0;
+  will-change: transform; // https://github.com/GoogleChrome/ioweb2015/issues/254
+  margin: 0;
+
+  .fullvideo_thumbnail {
+    width: 100%;
+    height: 100%;
+    transition: opacity 350ms cubic-bezier(0,0,0.2,1);
+    will-change: opacity; // https://github.com/GoogleChrome/ioweb2015/issues/254
+
+    &.fadeout {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+.video_overlay-dialog {
+  // overrides for paper-dialog
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+
+  paper-icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+    padding: 0;  // paper-dialog override.
+    margin: 0 !important;  // paper-dialog override.
+    color: #fff;
+    top: $mobileKeyline;
+    left: $mobileKeyline;
+
+    // Ensure sizing for some reason.
+    iron-icon {
+      height: 24px;
+      width: 24px;
+    }
+  }
+}
+
+#fab {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  pointer-events: none;
+  @include keyline-16();
+
+  &.active paper-fab {
+    transform: scale(1);
+  }
+
+  paper-fab {
+    background: #fff;
+    color: inherit;
+    transition: transform 200ms cubic-bezier(0,0,0.2,1);
+    will-change: transform;
+    transform: scale(0);
+    pointer-events: all;
+  }
+}
+
+paper-slider {
+  line-height: initial; // fixes slider nob text placement.
+}
+
+.io__hash-bottom {
+  height: 400px;
+  width: 100%;
+  background-size: 297px 115px;
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  .navbar__overlay {
+    font-size: 16px;
+  }
+  .io__hash-bottom {
+    background-size: 80%;
+    height: 300px;
+  }
+}
+
+@media (min-width: $tablet-breakpoint-min) {
+  .page__section {
+    @include keyline-32();
+    padding-top: $desktopKeyline;
+    padding-bottom: $desktopKeyline;
+  }
+  .page__section--copy {
+    padding-bottom: $desktopKeyline !important;
+  }
+  .hide-on-mobile {
+    display: block;
+  }
+  h1 {
+    @include typo-heading-1();
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 56px;
+  }
+  // Rest of heading are same as mobile.
+  #fab {
+    @include keyline-32();
+  }
+}
+
+@media (min-width: $desktop-breakpoint-mid) {
+  .page__section {
+    @include keyline-72();
+    padding-top: $largeKeyline;
+    padding-bottom: $largeKeyline;
+  }
+  #fab {
+    @include keyline-40();
+  }
+}
+
+@media (min-width: 961px) {
+  // h1 same as previous.
+  h2 {
+    @include typo-heading-2();
+    font-size: 32px;
+    line-height: 48px;
+    font-weight: 300;
+  }
+
+  h3 {
+    @include typo-heading-3();
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 400;
+  }
+
+  h4 {
+    @include typo-heading-4();
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 400;
+  }
+
+  h5 {
+    @include typo-heading-5();
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 500;
+  }
+
+  h6 {
+    @include typo-heading-6();
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+}

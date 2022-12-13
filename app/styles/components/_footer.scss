@@ -1,0 +1,54 @@
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+footer {
+  color: $color-bluegrey-600;
+  font-size: 12px;
+  min-height: 128px;
+  @include keyline-16();
+  padding-top: $mobileKeyline;
+  padding-bottom: $mobileKeyline;
+
+  img {
+    vertical-align: bottom;
+  }
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  footer {
+    nav > span {
+      line-height: 40px;
+    }
+  }
+}
+
+@media (min-width: $tablet-breakpoint-min) {
+  footer {
+    height: 128px; // IE11 flexbox needs a height. min-height doesn't work.
+
+    @include keyline-32();
+
+    nav > span {
+      margin-left: $mobileKeyline * 2;
+    }
+  }
+}
+
+@media (min-width: $desktop-breakpoint-min) {
+  footer {
+    @include keyline-40();
+  }
+}

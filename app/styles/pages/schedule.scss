@@ -1,0 +1,212 @@
+/**
+ * Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+$name: 'page-schedule';
+
+@import '../base/vars';
+@import '../base/layout';
+@import '../base/color';
+@import '../base/breakpoints';
+@import '../base/typography';
+
+
+##{$name} {
+
+io-schedule {
+  min-height: 800px; // Don't want to see the footer on page load.
+}
+
+.subpage__nav {
+  paper-dropdown-menu {
+    width: 90px;
+  }
+}
+
+.meta-filter {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.meta-filter,
+.meta-myschedue-button {
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &[disabled] {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  paper-menu-button {
+    padding: 0;
+  }
+
+  paper-icon-button {
+    margin-left: $mobileKeyline / 2;
+  }
+}
+
+.meta-myschedue-button {
+  &[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+// .page__filters {
+//   paper-dropdown-menu {
+//     @include typo-button();
+//     margin: $tabletKeyline;
+//     padding: 0;
+//     border: none;
+//     iron-menu {
+//       margin: 0;
+//     }
+//     paper-item {
+//       font-size: inherit;
+//     }
+//   }
+
+//   .paper-item-separator {
+//     border-top: 1px solid $color-light-grey-border;
+//   }
+// }
+
+iron-icon[icon="schedule"] {
+  margin-right: 40px;
+}
+
+.session__rate {
+  $lineHeight: 32px;
+
+  .session__info__section {
+    padding: $desktopKeyline;
+    border-top: 1px solid $color-light-grey-border;
+  }
+
+  .session__info__links {
+    border-top: 1px solid $color-light-grey-border;
+    text-transform: uppercase;
+  }
+
+  .rate__header {
+    padding: 8px;
+  }
+
+  .session__title {
+    color: #000;
+  }
+
+  .session__authors {
+    color: $color-link-grey;
+    line-height: $lineHeight;
+    font-weight: 400;
+  }
+
+  iron-menu {
+    margin: 0;
+  }
+
+  p {
+    margin-bottom: $tabletKeyline;
+  }
+
+  .rate__hint {
+    margin-top: $tabletKeyline;
+    color: $color-link-grey;
+  }
+
+  .rate__icon-1::after {
+    content: "1";
+  }
+
+  .rate__icon-2::after {
+    content: "2";
+  }
+
+  .rate__icon-3::after {
+    content: "3";
+  }
+
+  .rate__icon-4::after {
+    content: "4";
+  }
+
+  .rate__icon-5::after {
+    content: "5";
+  }
+
+  .rate__icon {
+    color: $color-link-grey;
+    background-color: $color-light-grey-border;
+    transition: background-color .3s linear .1s, color .3s linear .1s;
+    border-radius: 50%;
+
+    &.iron-selected {
+      background-color: $color-bluegrey-700;
+      color: #fff;
+    }
+  }
+
+  .anchor-like-disabled,
+  .anchor-like[disabled] {
+    color: $color-session-detail-light-grey;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .rate__icon-empty {
+    color: $color-text;
+  }
+
+// TODO: update for polymer 1.0
+  .rate__icon-empty::shadow iron-icon {
+    visibility: hidden;
+  }
+
+  .rate__icon::after {
+    position: absolute;
+    color: inherit;
+    margin: -31px auto 0 auto;
+    padding: 8px;
+  }
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  .subpage__nav {
+    @include keyline-16();
+
+    .subpage__nav--myscheduleback paper-icon-button {
+      left: -12px;
+    }
+  }
+
+  .session__rate {
+    margin: 0;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (min-width: $tablet-breakpoint-min) {
+  .meta-filter {
+    @include keyline-16();
+  }
+}
+
+}

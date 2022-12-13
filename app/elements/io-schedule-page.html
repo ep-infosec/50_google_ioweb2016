@@ -1,0 +1,316 @@
+<!--
+Copyright 2016 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+
+<link rel="import" href="shared-app-styles.html">
+<link rel="import" href="PageBehavior.html">
+
+<link rel="import" href="io-schedule-subnav.html">
+<link rel="import" href="io-schedule.html">
+<link rel="import" href="io-agenda.html">
+
+<dom-module id="io-schedule-page">
+<link rel="import" type="css" href="io-schedule-page.css">
+<template>
+<style include="shared-app-styles"></style>
+
+<div id="mastheadContainer" class="masthead-container" layout vertical end-justified>
+  <div class="masthead-meta">
+    <h1 class="focus-target" tabindex="-1">Schedule</h1>
+  </div>
+</div>
+
+<div class="card__container">
+
+  <div class="card">
+
+    <div class="subpage__container">
+
+      <io-schedule-subnav id="subnav"
+          selected-subpage="[[selectedSubpage]]" app="[[app]]"
+          show-filters="{{showFilters}}"
+          filters="[[filters]]"
+          on-filters-clear="clearFilters"></io-schedule-subnav>
+
+      <section class$="subpage-agenda subpage__content bg-bluegrey-50-20 {{_applyActiveClassWhenSubpage(selectedSubpage, 'agenda')}}">
+        <section class="slide-up">
+          <div class="card__container bg-cyan-200">
+            <div class="card">
+              <div class="card-content max-width-800 text-justified">
+                I/O 2016 is 3 full days of developer content from May 18th-20th. Check out the agenda to make sure you don’t miss out on any of the festivities. Looking to skip the lines before the keynote? You can pick up your badge beginning May 17th between 7am-7pm at Shoreline Amphitheatre. Keynote seating will be assigned on a first come, first served basis at badge pickup.
+              </div>
+            </div>
+          </div>
+          <template is="dom-if"
+                    if="[[_isSelectedSubpage(selectedSubpage, 'agenda')]]">
+            <template is="dom-repeat" items="[[agenda]]" as="day">
+              <io-agenda app="[[app]]"
+                         day="[[day.day]]"
+                         start="[[day.start]]"
+                         end="[[day.end]]"
+                         color="[[day.color]]"
+                         events="[[day.events]]"
+                         index="[[index]]"></io-agenda>
+            </template>
+          </template>
+        </section>
+      </section>
+
+      <section class$="subpage-day1 subpage-day2 subpage-day3 subpage-myschedule subpage__content {{_applyActiveClassWhenNotSubpage(selectedSubpage, 'agenda')}}">
+
+        <div class="slide-up">
+          <section class="bg-bluegrey-50-20">
+            <io-schedule id="scheduleEl"
+              app="[[app]]"
+              day="[[selectedSubpage]]"
+              sessions="{{app.scheduleData.sessions}}"
+              saved-sessions="{{app.savedSessions}}"
+              watched-videos="[[app.watchedVideos]]"
+              session-themes="[[app.filterThemes]]"
+              session-topics="[[app.filterTopics]]"
+              session-types="[[app.filterSessionTypes]]"
+              gmt-day-one="[[date]]"
+              show-filters="{{showFilters}}"
+              filters="{{filters}}"></io-schedule>
+          </section>
+        </div>
+      </section>
+    </div>
+
+  </div> <!-- .card -->
+
+</div> <!-- .card__container -->
+
+<div class="io__hash io__hash-bottom" aria-label="I/O hash tag"></div>
+
+</template>
+<script>
+(function () {
+  'use strict';
+
+  Polymer({
+
+    is: 'io-schedule-page',
+
+    behaviors: [IOBehaviors.PageBehavior],
+
+    title: 'Schedule',
+    name: 'schedule',
+    hasSubnav: true, // Toggles the subnav scroll effects.
+
+    properties: {
+      /**
+       * The target date for I/O to start. Should be specified in ISO 8601
+       * format, e.g. `May 18 2016 10:00:00 GMT-0700 (PDT)`.
+       */
+      date: {
+        type: String,
+        value: 'May 18 2016 10:00:00 GMT-0700 (PDT)'
+      },
+
+      /**
+       * The selected subpage/tab.
+       */
+      selectedSubpage: {
+        type: String,
+        value: 'day1',
+        notify: true
+      },
+
+      /**
+       * True to show the filter panel
+       */
+       showFilters: {
+        type: Boolean,
+        value: false,
+        notify: true
+      },
+
+      /**
+       * Array of applied filters.
+       */
+      filters: {
+        type: Array,
+        notify: true
+      },
+
+      /**
+       * Array of Objects representing the agenda to display.  Each Object represents a day's agenda
+       * in the following format:
+       *
+       * {
+       *   day: 'Wednesday, May 18', // Title describing day
+       *   start: 7, // Agenda start time
+       *   end: 22, // Agenda end time
+       *   color: '#ff8a80', // Highlight color for gant bars
+       *   events: [{ // Array of event objects
+       *     name: 'Badge pick-up', // name of event
+       *     start: 9, // Start time in 24h format 13.5 = 1:30 pm
+       *     end: 17, // End time in 24h format
+       *   }]
+       * }
+       */
+      agenda: {
+        type: Array,
+        readOnly: true,
+        value: [{
+          day: 'Tuesday, May 17',
+          start: 7,
+          end: 22,
+          color: '#FFCA28',
+          events: [{
+            name: 'Badge pick-up',
+            start: 7,
+            end: 19
+          }]
+        }, {
+          day: 'Wednesday, May 18',
+          start: 7,
+          end: 22,
+          color: '#ff8a80',
+          events: [{
+            name: 'Breakfast',
+            start: 8,
+            end: 10
+          }, {
+            name: 'Badge pick-up',
+            start: 7,
+            end: 19
+          }, {
+            name: 'Keynote',
+            start: 10,
+            end: 12
+          }, {
+            name: 'Sessions',
+            start: 13,
+            end: 19
+          }, {
+            name: 'Lunch',
+            start: 12,
+            end: 14
+          }, {
+            name: 'Codelabs',
+            start: 13,
+            end: 18
+          }, {
+            name: 'Sandbox',
+            start: 13,
+            end: 18
+          }, {
+            name: 'Concert',
+            start: 19,
+            end: 22
+          }]
+        }, {
+          day: 'Thursday, May 19',
+          start: 7,
+          end: 22,
+          color: '#80deea',
+          events: [{
+            name: 'Breakfast',
+            start: 8,
+            end: 10
+          }, {
+            name: 'Badge pick-up',
+            start: 8,
+            end: 19
+          }, {
+            name: 'Sessions',
+            start: 9,
+            end: 20
+          }, {
+            name: 'Lunch',
+            start: 11.5,
+            end: 13.5
+          },{
+            name: 'Codelabs',
+            start: 8.5,
+            end: 20
+          }, {
+            name: 'Sandbox',
+            start: 8.5,
+            end: 20
+          }, {
+            name: 'After Hours',
+            start: 18,
+            end: 22
+          }]
+        }, {
+          day: 'Friday, May 20',
+          start: 7,
+          end: 22,
+          color: '#7986cb',
+          events: [{
+            name: 'Breakfast',
+            start: 8,
+            end: 10
+          }, {
+            name: 'Badge pick-up',
+            start: 8,
+            end: 16
+          }, {
+            name: 'Sessions',
+            start: 9,
+            end: 16
+          }, {
+            name: 'Lunch',
+            start: 11.5,
+            end: 13.5
+          }, {
+            name: 'Codelabs',
+            start: 8.5,
+            end: 16
+          }, {
+            name: 'Sandbox',
+            start: 8.5,
+            end: 16
+          }]
+        }]
+      }
+    },
+
+    onPageTransitionDone: function(e) {
+      this.$.scheduleEl.deepLinkFromURL();
+
+      this.async(function() {
+        IOWA.Elements.Template.initFabScroll();
+      }, 200);
+    },
+
+    onSubpageTransitionDone: function() {
+      this.set('app.headerReveals', true);
+
+      // Reset FAB position after new DOM is set.
+      IOWA.Elements.Template.initFabScroll();
+    },
+
+    toggleFilters: function() {
+      this.$.scheduleEl.showFilters = !this.$.scheduleEl.showFilters;
+    },
+
+    clearFilters: function(e) {
+      this.$.scheduleEl.clearFilters();
+    },
+
+    _applyActiveClassWhenNotSubpage: function(selectedSubpage, subpageName) {
+      return this._addClass('active', selectedSubpage !== subpageName);
+    }
+  });
+
+}());
+</script>
+</dom-module>

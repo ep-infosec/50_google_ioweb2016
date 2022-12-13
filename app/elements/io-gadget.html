@@ -1,0 +1,383 @@
+<!--
+Copyright 2016 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/google-youtube/google-youtube.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="social-post.html">
+<link rel="import" href="social-poller.html">
+
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../scripts/helper/request.js"></script>
+
+<link rel="import" href="shared-app-styles.html">
+
+<!--
+The `<io-gadget>` element renders a youtube video + social feed.
+-->
+<dom-module id="io-gadget">
+  <link rel="import" type="css" href="io-gadget.css">
+  <template>
+    <style include="shared-app-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-media-query full query="(min-width:320px) and (max-width:768px)"
+                      query-matches="{{isPhoneSize}}"></iron-media-query>
+
+    <div id="livebanner" layout horizontal center end-justified>
+      <h5><a href="/io2016/schedule?utm_source=external&utm_medium=embed&utm_campaign=widget&filters=Live%20streamed#day1" target="_blank" on-click="_onOpenSchedule">I/O Live schedule</a></h5>
+    </div>
+
+    <section id="gadgetcontent" layout horizontal fit vertical$="{{isPhoneSize}}">
+
+      <template is="dom-if" if="[[!noVideo]]" restamp>
+
+        <template is="dom-if" if="[[_isView(view, _VIEWS.BEFORE)]]" restamp>
+          <div class="preroll" layout center flex two>
+            <div class="preroll-content" layout vertical self-start>
+              <h1>I/O Live</h1>
+              <h3>Tune in here on May 18, starting at 10AM PDT.<br>
+              Learn more about Google I/O at <a href="https://google.com/io" target="_blank">google.com/io</a>.</h3>
+              <h4>#io16</h4>
+            </div>
+          </div>
+        </template>
+
+        <template is="dom-if" if="[[_isView(view, _VIEWS.BETWEEN)]]" restamp>
+          <div class="preroll" layout vertical center-center flex two>
+            <div class="preroll-content" layout vertical self-start>
+              <h1>I/O Live</h1>
+              <h3>Tune in again tomorrow, starting at 9AM PDT.<br>
+              Meanwhile, watch the 2016 keynote and sessions at <a href="/io2016/" target="_blank">events.google.com/io2016</a>.</h3>
+              <h4>#io16</h4>
+            </div>
+          </div>
+        </template>
+
+        <template is="dom-if" if="[[_isView(view, _VIEWS.AFTER)]]" restamp>
+          <div class="preroll" layout vertical center-center flex two>
+            <div class="preroll-content" layout vertical self-start>
+              <h1>I/O Live</h1>
+              <h3>Thanks for another great Google I/O.<br>
+              Watch the 2016 keynote and sessions at <a href="/io2016/" target="_blank">events.google.com/io2016</a>.</h3>
+              <h4>#io16</h4>
+            </div>
+          </div>
+        </template>
+
+        <template is="dom-if" if="[[_isView(view, _VIEWS.LIVE)]]" restamp>
+
+          <div class="card card--livestream" layout vertical flex two>
+            <div flex class="card__photo" relative layout center-center>
+              <img src="../images/play-video-button.png"
+                   title="Start watching" alt="Start watching"
+                   class="play__button">
+
+              <google-youtube id="video" height="100%" width="100%" fit
+                  video-id="[[selectedVideoId]]" autohide="1" controls="2"
+                  modestbranding="1" showinfo="0" iv_load_policy="3" rel="0" autoplay="0"
+                  on-google-youtube-ready="_onVideoReady"
+                  on-google-youtube-state-change="_onStateChange"></google-youtube>
+
+            </div>
+            <div class="card-content card--video-meta" layout horizontal center>
+              <div flex>
+                <div class="video-title" title$="[[videoTitle]]"><span>{{videoTitle}}</span>&nbsp;</div>
+                <!-- <div class="video-author">{{videoAuthor}}</div> -->
+              </div>
+              <div>
+                <paper-dropdown-menu label="Switch channel" vertical-align="bottom">
+                  <paper-listbox class="dropdown-content" attr-for-selected="videoid"
+                                 selected="{{selectedVideoId}}">
+                    <template is="dom-repeat" items="[[videoIds]]" as="video" index-as="i">
+                      <template is="dom-if" if="[[_isFirstItem(i)]]">
+                        <paper-item videoid$="[[video]]">Keynote</paper-item>
+                      </template>
+                      <template is="dom-if" if="[[!_isFirstItem(i)]]">
+                        <paper-item videoid$="[[video]]">Channel <span>[[i]]</span></paper-item>
+                      </template>
+                    </template>
+                  </paper-listbox>
+                </paper-dropdown-menu>
+              </div>
+            </div>
+          </div>
+
+        </template>
+
+      </template>
+
+      <template is="dom-if" if="[[!noFeed]]" restamp>
+        <div id="social-feed" class="card" layout vertical flex>
+          <div class="card-content">
+            <h3>Google I/O Social Feed</h3>
+          </div>
+          <div id="post-container" class="card-content" flex>
+            <div layout vertical>
+              <social-poller url="/io2016/api/v1/social"
+                             posts="{{socialPosts}}" interval="30000"></social-poller>
+              <template is="dom-repeat" items="[[socialPosts]]" as="post">
+                <social-post kind="[[post.kind]]" author="[[post.author]]"
+                             url="[[post.url]]" text="[[post.text]]"
+                             when="[[post.when]]" media="[[post.media]]">
+                </social-post>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+
+    </section>
+
+    <div id="copyright-text">Video &amp; social announcements © Google</div>
+
+  </template>
+  <script>
+    (function () {
+      var interval_ = null;
+      // setTimeout's delay cannot be greater than 2147483647.
+      // See developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout
+      function setLongTimeout(callback, timeout) {
+        var MAX_SET_TIMEOUT = 2147483647;
+        if (timeout > MAX_SET_TIMEOUT) {
+          interval_ = setTimeout(function () {
+            setLongTimeout(callback, timeout - MAX_SET_TIMEOUT);
+          }, MAX_SET_TIMEOUT);
+        } else {
+          interval_ = setTimeout(callback, timeout);
+        }
+      }
+
+      var _VIEWS = {
+        BEFORE: 0,
+        LIVE: 1,
+        BETWEEN: 2,
+        AFTER: 3
+      };
+
+      Polymer({
+        is: 'io-gadget',
+
+        properties: {
+          _VIEWS: {
+            value: function () {
+              return _VIEWS;
+            }
+          },
+
+          /**
+           * The selected YouTube video id to play.
+           */
+          videoIds: {
+            type: Array
+          },
+
+          /**
+           * If true, shows the social feed.
+           */
+          noFeed: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * If true, displays the video stream.
+           */
+          noVideo: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * The selected video from the list of videoIds
+           */
+          selectedVideoId: {
+            type: String
+          },
+
+          /**
+           * List of API results.
+           */
+          socialPosts: {
+            type: Array,
+            value: function() { return []; }
+          },
+
+          /**
+           * The start date of the event.
+           */
+          startDate: {
+            type: String,
+            value: null
+          },
+
+          /**
+           * The author of the video, as returned by the YT API.
+           */
+          videoAuthor: {
+            type: String,
+            value: ''
+          },
+
+          /**
+           * The title of the video, as returned by the YT API.
+           */
+          videoTitle: {
+            type: String,
+            value: ''
+          },
+
+          /**
+           * The view to show.
+           */
+          view: {
+            type: Number,
+            value: _VIEWS.BEFORE
+          },
+
+          _wasPaused: {
+            type: Boolean,
+            value: false
+          },
+
+          _videoReady: {
+            type: Boolean,
+            value: false
+          }
+        },
+
+        observers: [
+          'setView(startDate, videoIds.length)',
+          'playVideo(selectedVideoId, _videoReady)'
+        ],
+
+        ready: function() {
+          IOWA.Request.xhrPromise('GET', '/io2016/api/v1/livestream', false).then(function(resp) {
+            this.videoIds = resp;
+          }.bind(this));
+        },
+
+        _updateVideoInfo: function() {
+          var video = this.$.gadgetcontent.querySelector('google-youtube');
+          if (video) {
+            var meta = video._player.getVideoData();
+            this.videoTitle = meta.title;
+            this.videoAuthor = meta.author;
+          }
+        },
+
+        _onVideoReady: function(e, detail) {
+          this._videoReady = true;
+          this._updateVideoInfo();
+        },
+
+        _onStateChange: function(e, detail) {
+          var video = this.$.gadgetcontent.querySelector('google-youtube');
+          switch (detail.data) {
+            case YT.PlayerState.CUED:
+              this._wasPaused = false;
+              video.play();
+              break;
+            case YT.PlayerState.PAUSED:
+              this._wasPaused = true;
+              break;
+            case YT.PlayerState.PLAYING:
+              this._updateVideoInfo();
+              if (!this._wasPaused) {
+                ga('send', 'event', 'gadget', 'video', this.selectedVideoId);
+              }
+              this._wasPaused = false;
+              break;
+          }
+        },
+
+        playVideo: function() {
+          if (!this._videoReady) {
+            return;
+          }
+
+          var video = this.$.gadgetcontent.querySelector('google-youtube');
+          if (video && this.videoIds.indexOf(this.selectedVideoId) !== -1) {
+            video.play(); // Start auto-playing video when new one was selected.
+          }
+        },
+
+        _onOpenSchedule: function() {
+          ga('send', 'event', 'gadget', 'link', 'open-schedule-link');
+        },
+
+        setView: function() {
+          var today = moment();
+          // Gadget starts showing content at 10am PDT.
+          var day1Start = moment(this.startDate); // 10am
+          var day1End = moment(day1Start).hours(19).startOf('hour'); // 7pm
+          var day2Start = moment(day1Start).add(1, 'days').hours(9); // 9am
+          var day2End = moment(day2Start).hours(20).startOf('hour'); // 8pm
+          var day3Start = moment(day2Start).add(1, 'days').hours(9); // 9am
+          var day3End = moment(day3Start).hours(16).startOf('hour'); // 4pm
+
+          var timeout;
+          var offset = 50;
+          if (today.isBefore(day1Start)) {
+            this.view = this._VIEWS.BEFORE;
+            timeout = day1Start - today + offset;
+            setLongTimeout(this.setView.bind(this), timeout);
+            // refresh view when I/O starts.
+            return;
+          } else if (today.isBetween(day1Start, day1End)) {
+            this.view = this._VIEWS.LIVE;
+            timeout = day1End - today + offset;  // refresh view when day 1 ends.
+          } else if (today.isBetween(day2Start, day2End)) {
+            this.view = this._VIEWS.LIVE;
+            timeout = day2End - today + offset;  // refresh view when day 2 ends.
+          } else if (today.isBetween(day3Start, day3End)) {
+            this.view = this._VIEWS.BETWEEN;
+            timeout = day3End - today + offset;  // refresh view when day 3 ends.
+          } else if (today.isBetween(day1End, day2Start)) {
+            this.view = this._VIEWS.BETWEEN;
+            timeout = day2Start - today + offset; // refresh view when day 2 starts.
+          } else if (today.isBetween(day2End, day3Start)) {
+            this.view = this._VIEWS.BETWEEN;
+            timeout = day3Start - today + offset; // refresh view when day 3 starts.
+          } else if (today.isAfter(day3End)) {
+            this.view = this._VIEWS.AFTER;
+            return; // don't refresh view.
+          }
+
+          // Select a random channel if we're after the keynote.
+          this.afterKeynote = today.isAfter(moment(this.startDate).add(2, 'hours').add(30, 'minutes'));
+          if (this.afterKeynote) {
+            var index = Math.floor(Math.random() * (this.videoIds.length - 1) + 1);
+            this.selectedVideoId = this.videoIds[index];
+          } else {
+            this.selectedVideoId = this.videoIds[0];
+          }
+          interval_ = setTimeout(this.setView.bind(this), timeout);
+        },
+        _isView: function(selectedView, view) {
+          return selectedView === view;
+        },
+        _isFirstItem: function(i) {
+          return i === 0;
+        }
+      });
+    }());
+  </script>
+</dom-module>

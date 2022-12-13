@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Google I/O 2016 Live Embed">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1">
+  <link rel="canonical" href="{% .Canonical %}">
+  <title>Google I/O 2016 Live Embed</title>
+
+  <!-- Page styles -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  <script>
+  window.ENV = {% .Env %};
+  window.PREFIX = {% .Prefix %};
+
+  // Initializes the analytics.js command queue.
+  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+  // Creates the tracker.
+  ga('create', {
+    trackingId: window.ENV === 'prod' ? 'UA-58124138-3' : 'UA-58124138-2',
+    cookieDomain: 'auto',
+    siteSpeedSampleRate: 10, // 10% of users.
+  });
+
+  ga('send', 'pageview');
+  </script>
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="elements/embed-elements.html">
+</head>
+<body id="page-embed" fullbleed>
+
+<!-- Note: First video should be the keynote -->
+<io-gadget start-date="{% .StartDateStr %}"></io-gadget>
+
+<script>
+(function() {
+  'use strict';
+
+  document.addEventListener('HTMLImportsLoaded', function() {
+    var gadget = document.querySelector('io-gadget');
+    gadget.noFeed = location.search.match('noFeed');
+    gadget.noVideo = location.search.match('noVideo');
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!--
+Copyright 2016 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+
+<link rel="import" href="shared-app-styles.html">
+<link rel="import" href="PageBehavior.html">
+
+<dom-module id="io-attend-page">
+<template>
+  <style include="shared-app-styles">
+    :host {
+      display: block;
+    }
+  </style>
+
+<div id="mastheadContainer" class="masthead-container" layout horizontal end>
+  <div class="masthead-meta">
+    <h1 class="focus-target" tabindex="-1">Attending</h1>
+  </div>
+</div>
+
+<div class="card__container">
+  <div class="card">
+    <div class="subpage__container">
+
+      <div id="subnav" class="subpage__nav bg-cyan-400" layout horizontal justified>
+        <paper-tabs id="subpage-tabs" class="white"
+                    attr-for-selected="label"
+                    selected="[[selectedSubpage]]">
+          <paper-tab label="event" link>
+            <a href="#event" data-track-link="attending-event" data-ajax-link
+               layout horizontal center-center>Event</a>
+          </paper-tab>
+          <paper-tab label="travel" link>
+            <a href="#travel" data-track-link="attending-travel" data-ajax-link
+               layout horizontal center-center>Travel</a>
+          </paper-tab>
+        </paper-tabs>
+      </div>
+
+      <!-- Event tab content -->
+      <section class$="subpage-event subpage__content {{_applyActiveClassWhenSubpage(selectedSubpage, 'event')}}">
+        <div class="slide-up">
+
+          <div layout horizontal wrap>
+            <div class="card" layout horizontal wrap>
+              <div class="card-content box bg-cyan-300" layout vertical>
+                <h5 style="font-weight: normal;">
+                  Google I/O is our annual developer festival with hands-on learning, technical talks, and a chance to hear more about Google&#8217;s latest developer products.
+                </h5>
+
+                <div layout flex end>
+                  <span class="card__footerlink" layout horiziontal justified center flex>
+                    <a class="-off-screen -off-screen-focus" href="https://docs.google.com/document/d/1ngwo5T-EEkATxu5lTB0dOPsGsrzClfVSmH9CkpOvi_g/edit">View list of stages</a>
+                  </span>
+                </div>
+              </div>
+              <a class="card-content box card-map" href="https://www.google.com/maps/d/viewer?mid=zw02JmrSGtIE.kcBDdSlNAd4Y" target="_blank" layout vertical>
+                <div layout flex end>
+                  <span class="card__footerlink typo-white" layout horiziontal justified center flex>
+                    View full map
+                    <iron-icon icon="icons:zoom-in"></iron-icon>
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <section class="details bg-bluegrey-50-40">
+            <div class="details--wrapper sandbox">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">Sandbox</h3>
+                <div class="details--info-block">
+                  <p>
+                    Get hands-on with our latest APIs and tools in the developer sandbox.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details--wrapper code-labs">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">Codelabs</h3>
+                <div class="details--info-block">
+                  <p>
+                    Post up at a workstation to work through technical modules at your own pace. Googlers will be on hand to help you out as you work your way through.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details--wrapper office-hours">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">Office Hours &amp; App Reviews</h3>
+                <div class="details--info-block">
+                  <p class="detail__text">
+                    Swing by office hours with Google experts to ask your burning technical questions and to receive one-on-one help with your projects and apps.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details--wrapper after-hours">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">After Hours</h3>
+                <div class="details--info-block">
+                  <p class="detail__text">
+                    Stick around after sessions end for a concert in the amphitheatre and to party together After Hours. We&#8217;ll bring the food, drinks and fun.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="card-after-hours card-content box box-full fullbleed typo-white" layout vertical></div>
+
+          <div class="io__hash io__hash-bottom" aria-label="I/O hash tag"></div>
+
+        </div>
+      </section>
+      <!-- end Event content -->
+
+
+      <!-- Travel tab content -->
+      <section class$="subpage-travel subpage__content {{_applyActiveClassWhenSubpage(selectedSubpage, 'travel')}}">
+        <div class="slide-up">
+
+          <div layout horizontal wrap>
+            <div class="card" layout horizontal wrap>
+              <div class="card-content box bg-cyan-300" layout vertical>
+                <h5 style="font-weight: normal;">
+                  To celebrate a decade of working closely with the developer community, we&rsquo;ll be hosting I/O in our backyard at the Shoreline Amphitheatre in Mountain View, CA, a venue that has played host to some of the world&rsquo;s biggest entertainers and events. We can&rsquo;t wait to get hands on with code and share our latest product innovations with you in this space.
+                </h5>
+              </div>
+              <div class="card-content box card__photo" relative>
+                <div class="card--top-right-clip">
+                  <a class="typo-white" href="https://www.google.com/maps/contrib/117863668777896648385/photos/@45.5494341,-122.6581997,15z" target="_blank">Photo by Thorsten Schaeff</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section class="details bg-bluegrey-50-40">
+            <div class="details--wrapper airports">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">Getting to Mountain View</h3>
+                <div class="details--info-block"><p>Here are the three major airports in the Bay Area with international airline service:</p></div>
+                <div class="details--info-block">
+                  <a class="detail__link" href="https://www.google.com/maps/dir/San+Francisco+International+Airport,+San+Francisco,+CA+94128/Shoreline+Amphitheatre,+Amphitheatre+Parkway,+Mountain+View,+CA/@37.5203984,-122.3799704,11z/data=!3m1!4b1!4m17!4m16!1m5!1m1!1s0x808f778c55555555:0xa4f25c571acded3f!2m2!1d-122.3789554!2d37.6213129!1m5!1m1!1s0x808fb9f776f5e165:0x1ddf014a1b553f3d!2m2!1d-122.0807647!2d37.4267703!2m2!7e2!8j1463556000!3e0?hl=en" target="_blank">San Francisco International Airport (SFO)</a>
+                  <p class="detail__distance">~24 miles</p>
+                </div>
+                <div class="details--info-block">
+                  <a class="detail__link" href="https://www.google.com/maps/dir/Oakland+International+Airport,+Oakland,+CA/Shoreline+Amphitheatre,+Amphitheatre+Parkway,+Mountain+View,+CA/@37.5755915,-122.270249,11z/data=!3m1!4b1!4m18!4m17!1m5!1m1!1s0x808f845402c0a641:0xb0630c0f03017460!2m2!1d-122.2197428!2d37.7125689!1m5!1m1!1s0x808fb9f776f5e165:0x1ddf014a1b553f3d!2m2!1d-122.0807647!2d37.4267703!2m3!6e0!7e2!8j1463556000!3e0?hl=en" target="_blank">Oakland International Airport (OAK)</a>
+                  <p class="detail__distance">~32 miles</p>
+                </div>
+                <div class="details--info-block">
+                  <a class="detail__link" href="https://www.google.com/maps/dir/San+Jose+International+Airport-Sjc,+Airport+Boulevard,+San+Jose,+CA,+United+States/Shoreline+Amphitheatre,+Amphitheatre+Parkway,+Mountain+View,+CA/@37.3953381,-122.0740073,12z/data=!3m1!4b1!4m17!4m16!1m5!1m1!1s0x808fcbc3fab3c59b:0xbcfa443f6df67e3e!2m2!1d-121.9289375!2d37.3639472!1m5!1m1!1s0x808fb9f776f5e165:0x1ddf014a1b553f3d!2m2!1d-122.0807647!2d37.4267703!2m2!7e2!8j1463556000!3e0?hl=en" target="_blank">San Jose International Airport (SJC)</a>
+                  <p class="detail__distance">~12 miles</p>
+                </div>
+                <div class="details--info-block">
+                  <p class="detail__text">Find your flight to I/O on <a class="detail__link" href="https://www.google.com/flights/" target="_blank">flights.google.com</a>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details--wrapper transit">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">Getting to Shoreline Amphitheatre</h3>
+                <div class="details--info-block">
+                  <p>
+                    Plan ahead, expect traffic delays (use <a href="https://www.google.com/maps" target="_blank">Google Maps</a> and <a href="https://www.waze.com/" target="_blank">Waze</a>), be patient, and consider carpooling or biking. We also strongly advise using the provided event shuttles.
+                  </p>
+                </div>
+                <div class="details--info-block">
+                  <h5 class="detail__heading">Shuttle Service</h5>
+                  <p class="detail__text">
+                    Event shuttles will be provided to Google I/O attendees at no charge from all Google-recommended hotels and with select service from San Francisco and other locations along the Peninsula. <b>You must show your Google I/O confirmation email or conference badge to board all Google I/O event shuttles.</b>
+                  </p>
+                  <p class="detail__text">
+                    Google I/O event shuttles will service the hubs listed below for attendees making connections with public transportation services. Please check the event shuttle schedule for details.
+                  </p>
+
+                  <p class="detail__text no-bottom-margin">
+                    <b>BART:</b> <a href="https://www.bart.gov/stations/mlbr" target="_blank">Millbrae BART Station</a>
+                  </p>
+                  <p class="detail__text">
+                    <b>Caltrain:</b> <a href="http://www.caltrain.com/stations/mountainviewstation.html" target="_blank">Mountain View Caltrain Station</a>
+                  </p>
+                  <!--<p class="detail__text">
+                    <a href="http://www.caltrain.com/stations/mountainviewstation.html" target="_blank">Mountain View Caltrain Extended Service</a>: Google I/O will provide extended northbound service beginning at the Mountain View Caltrain Station on the evenings of Wednesday, May 18 and Thursday, May 19. Riders may take the 10:30 PM Google I/O event shuttle from Shoreline to connect to an 11:15 PM train making the following stops: Mountain View, Palo Alto, Millbrae, San Francisco (4th and King).
+                  </p>-->
+                  <p class="detail__text">
+                    In addition to the Google I/O event shuttles, you may consider using <a href="http://www.mvgo.org/east-bayshore-route.html" target="_blank">MVgo</a>, a service of the Mountain View Transportation Management Association, to get to and from the Mountain View Caltrain Station, downtown Mountain View, and Crittenden stop, which is about half a mile from Shoreline Amphitheatre.
+                  </p>
+                  <p class="detail__text">
+                    Each pick-up location will have ADA accessible vehicles. Please indicate on your registration form if you have any ADA or special assistance requirements and the planning team will follow up with you directly.
+                  </p>
+                </div>
+                <div class="details--info-block">
+                  <h5 class="detail__heading">Public Transportation</h5>
+                  <p class="detail__text">Public transportation to the area is accessible via:</p>
+                </div>
+                <div class="details--info-block">
+                  <p class="detail__text no-bottom-margin"><a href="http://www.caltrain.com/" target="_blank">Caltrain:</a> Regional rail system</p>
+                  <p class="detail__text no-bottom-margin"><a href="http://www.vta.org/getting-around/interactive-light-rail-map" target="_blank">VTA:</a> Light rail system servicing the South Bay</p>
+                  <p class="detail__text no-bottom-margin"><a href="https://www.bart.gov/" target="_blank">BART:</a> Bay Area Rapid Transit</p>
+                </div>
+                <div class="details--info-block">
+                  <p class="detail__text">Public transit does not go directly to Google I/O. Stay tuned over the coming weeks for exact transportation locations serviced by Google I/O event shuttles.</p>
+                </div>
+                <div class="details--info-block">
+                  <h5 class="detail__heading">Bike</h5>
+                  <p class="detail__text">
+                    Bike parking will be available at Shoreline Amphitheatre. Recommended bike routes will be available in the coming weeks.
+                  </p>
+                  <p class="detail__text">
+                    Alternatively, the Bay Area Bike Share program provides 24/7 access to shared bicycles in <a href="http://www.bayareabikeshare.com/stations" target="_blank" class="detail__link">five service areas</a> across the Peninsula. The closest location to Shoreline Amphitheatre is at 228 Charleston Road, Mountain View, CA 94043. More information regarding membership and pricing is available via the  <a href="http://www.bayareabikeshare.com/stations" target="_blank" class="detail__link">Bay Area Bike Share</a> website.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details--wrapper parking">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--text-container">
+                <h3 class="details--title">Parking and Carpooling</h3>
+                <div class="details--info-block">
+                  <p class="detail__text">
+                    Parking is very limited and available only in the Google I/O designated lots located across from Shoreline Amphitheater along Shoreline Boulevard next to the fire station. This is also the only valid passenger pick-up and drop-off location.
+                  </p>
+                  <p class="detail__text">
+                    There is no event parking along Amphitheater Parkway or Charleston Road. If you plan to drive, we recommend carpooling with other attendees due to limited parking availability at the venue. Preferred parking spaces will be available for cars containing 2 or more people.
+                  </p>
+                </div>
+                <div class="details--info-block" id="uberPOOL">
+                  <h5 class="detail__heading">uberPOOL</h5>
+                  <p class="detail__text">
+                    Download the Uber app from <a href="https://play.google.com/store/apps/details?id=com.ubercab" target="_blank">Google Play</a> or the <a href="https://itunes.apple.com/us/app/uber/id368677368?mt=8" target="_blank">App Store</a> to use uberPOOL to share a ride with another rider along the same route for a cheaper fare.
+                  </p>
+                  <p class="detail__text">
+                    Attendees may enter the code <b>GOOGLEIO16</b> to receive up to $10 off uberPOOL rides. Trips must begin or end at Shoreline Amphitheatre. This code is valid from May 18-20, limit 2 rides per day. Please note there is limited availability.
+                  </p>
+                  <p class="detail__text">
+                    The only valid passenger pick-up and drop-off location is located in the Google I/O parking lot across from Shoreline Amphitheatre and next to the fire station.
+                  </p>
+                </div>
+                <div class="details--info-block" id="lyftLine">
+                  <h5 class="detail__heading">Lyft Line</h5>
+                  <p class="detail__text">
+                    Download the Lyft app from <a href="https://play.google.com/store/apps/details?id=me.lyft.android&hl=enor" target="_blank">Google Play</a> or the <a href="https://itunes.apple.com/us/app/lyft-taxi-app-alternative/id529379082?mt=8" target="_blank">App Store</a> and use Lyft Line to share a ride with others going the same way for less.
+                  </p>
+                  <p class="detail__text">
+                    Enter the code <b>GOOGLEIO16</b> to receive up to $10 off a Lyft Line ride. Rides must begin or end at Shoreline Amphitheatre and take place within the <a href="https://www.lyft.com/cities/silicon-valley" target="_blank">Silicon Valley</a> region. The code is valid from May 18-20 for the first 1,000 attendees to redeem.
+                  </p>
+                  <p class="detail__text">
+                    The Lyft Line pick-up and drop-off location is located in the Google I/O parking lot across from Shoreline Amphitheatre and next to the fire station.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details--wrapper hotels">
+              <div class="details--icon-container">
+                <div class="details--icon"></div>
+              </div>
+              <div class="details--list-text">
+                <div class="details--text-container">
+                  <h3 class="details--title">Hotels</h3>
+                  <div class="details--info-block">
+                    <p class="detail__text">We have room blocks at many hotels. Use the map below to find a hotel that&rsquo;s best for you.</p>
+                    <a class="-off-screen -off-screen-focus" href="https://docs.google.com/document/d/118nk5pu5-4dT3gEq5KnFl7iATJhXldLdo7PVXaATIxM/edit">View list of hotels</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="mapContainer" class="map-container hotel__map">
+            <template is="dom-if" if="[[_loadMap]]">
+              <iframe src="https://www.google.com/maps/d/u/0/embed?mid=zhj-bilAxwho.kAQv4c7VcqU4" width="100%" height="100%"></iframe>
+            </template>
+          </section>
+
+          <div class="io__hash io__hash-bottom" aria-label="I/O hash tag"></div>
+
+        </div>
+      </section>
+      <!-- end Travel content -->
+
+    </div> <!-- .subpage__container -->
+  </div> <!-- .card -->
+</div> <!-- .card__container -->
+
+</template>
+<script>
+(function () {
+  'use strict';
+
+  var SUBTAB_SELECTOR = '#subpage-tabs a';
+
+  Polymer({
+    is: 'io-attend-page',
+
+    behaviors: [IOBehaviors.PageBehavior],
+
+    title: 'Attending',
+    name: 'attend',
+    hasSubnav: true, // Toggles the subnav scroll effects.
+
+    properties: {
+      _loadMap: {
+        type: Boolean,
+        computed: '_computeLoadMap(app.pageTransitionDone, selectedSubpage, _scrolledToMapSection)'
+      },
+
+      /**
+       * The selected subpage/tab.
+       */
+      selectedSubpage: {
+        type: String,
+        value: 'event',
+        notify: true
+      },
+
+      _scrolledToMapSection: false
+    },
+
+    attached: function() {
+      Polymer.RenderStatus.afterNextRender(this, function() {
+        this.listen(IOWA.Elements.ScrollContainer, 'scroll', '_onPageScroll');
+
+        // Calculate top of tweet cycler / hashtag video section.
+        this._lowerScrollThreshold = IOWA.Elements.Footer.clientHeight +
+            parseInt(getComputedStyle(IOWA.Elements.Footer).height) +
+            Polymer.dom(this.root).querySelector('.io__hash').clientHeight;
+
+
+        // Deep link into transportation options.
+        var parsedUrl = IOWA.Router.parseUrl(window.location.toString());
+        if (parsedUrl.hash.match(/uber/)) {
+          this.async(function() {
+            Polymer.AppLayout.scroll({
+              top: this.$.uberPOOL.getBoundingClientRect().top - 100,
+              behavior: 'smooth',
+              target: IOWA.Elements.Scroller
+            });
+          }, 1000);
+        } else if (parsedUrl.hash.match(/lyft/)) {
+          this.async(function() {
+            Polymer.AppLayout.scroll({
+              top: this.$.lyftLine.getBoundingClientRect().top - 100,
+              behavior: 'smooth',
+              target: IOWA.Elements.Scroller
+            });
+          }, 1000);
+        }
+
+        // Wait till after subnav effects to look for focusable items
+        this.async(function() {
+          IOWA.A11y.addFocusStates(SUBTAB_SELECTOR);
+        });
+      });
+    },
+
+    detached: function() {
+      this.unlisten(IOWA.Elements.ScrollContainer, 'scroll', '_onPageScroll');
+      IOWA.A11y.removeFocusStates(SUBTAB_SELECTOR);
+    },
+
+    onSubpageTransitionDone: function() {
+      this.set('app.headerReveals', true);
+
+      // Reset FAB position after new DOM is set.
+      IOWA.Elements.Template.initFabScroll();
+    },
+
+    _onPageScroll: function() {
+      var scrollY = IOWA.Elements.ScrollContainer.scrollY;
+      this._scrolledToMapSection = scrollY > this._lowerScrollThreshold;
+
+      this.disableElementOnScroll(this.$.mapContainer);
+    },
+
+    _computeLoadMap: function(pageTransitionDone, selectedSubpage, scrolledEnough) {
+      return pageTransitionDone && selectedSubpage == 'travel' && scrolledEnough;
+    }
+
+  });
+
+}());
+</script>
+</dom-module>

@@ -1,0 +1,70 @@
+# The humans responsible & technology colophon - humanstxt.org
+
+# CORE TEAM -----
+
+  Eric Bidelman (ebidel) - lead dev
+  Jeff Posnick (jeffposnick) - service worker, offline
+  Peng Ying (pengying) - session feedback, agenda, misc frontend
+  Alex Vaghin (crhym3) - Go backend, API integration
+  Nicolas Garnier (nicolasgarnier) - firebase, notifications
+  Mat Scales (wibblymat) - notifications
+  Rob Dodson (rob_dodson) - a11y
+
+# THANKS / CONTRIBUTORS -----
+
+  Paul Farning (paulfarning) - attend, extended, shuttle schedule
+  Thomas Reynolds (tdreyno) - countdown
+  Sasha Burchuk (sashaburchuk) - frontend
+  Philip Walton (philipwalton) - analytics
+  Brendan Kenny (brendankenny) - perf, build
+  Frank van Puffelen (puff) - firebase consultation
+  Matthew Gaunt (gauntface) - notifications
+  The Polymer team
+
+# TECHNOLOGY -----
+
+Frontend
+  - Polymer 1.0 (polymer-project.org)
+    + web components: html imports, <template>, custom elements, shadow dom
+    + iron elements, paper elements, google web components
+  - ES6
+  - Promises
+  - Web Workers
+  - Service Workers
+    + cache api
+    + fetch() API
+    + Push notifications
+  - IndexedDB
+  - Firebase
+  - MOBILE
+    + add to homescreen
+    + app install banner
+    + <meta name="theme-color">
+  - CSS
+    + SaSS
+    + will-change
+    + scroll-behavior: smooth
+  - Web Animations API
+
+APIS
+  - Firebase
+  - Google Sheets
+  - Google Cloud Messaging (GCM)
+  - Google Analytics
+  - Google Maps API
+  - Google Sign-in
+  - Google+
+  - Google Picasa
+  - YouTube player
+
+Backend
+  - Go
+  - App Engine
+  - Firebase REST API
+  - Google Cloud Messaging (GCM)
+
+Build
+ - Gulp
+ - Bower
+ - npm
+ - Vulcanize + Crisper

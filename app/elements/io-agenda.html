@@ -1,0 +1,322 @@
+<!--
+Copyright 2016 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-app-styles.html">
+<!--
+The `<io-agenda>` element renders the agenda for a given day.  It uses a flexbox to render and
+each hour is 2 divs.  Each event is a label column and 3 columns of different spans.
+-->
+<dom-module id="io-agenda">
+  <link rel="import" type="css" href="io-agenda.css">
+
+  <template>
+    <style include="shared-app-styles"></style>
+    <div class$="card__container day-[[index]]">
+      <div class="card">
+        <div class="card-content no-bottom-padding">
+          <h4>[[day]]</h4>
+        </div>
+        <div id="agenda-content" class="card-content relative" layout vertical>
+          <template is="dom-repeat" items="[[events]]" as="event">
+            <div class="row-height" layout horizontal justified>
+              <div class="row-label" hidden$="[[app.isPhoneSize]]">
+                [[event.name]]
+                <span class="-off-screen">[[_toTwelveHourWithMeridiem(event.start)]] to [[_toTwelveHourWithMeridiem(event.end)]]</span>
+              </div>
+              <template is="dom-if" if="[[_checkZero('left', event)]]">
+                <div style$="[[_calculateLeftSpanStyle(event)]]"></div>
+              </template>
+              <div style$="[[_calculateEventSpanStyle(event)]]" class="overflow-hidden" aria-hidden$="[[_fitEventSpan(event, app.isPhoneSize)]]">
+                <div class="filler center-text" style$="background:[[color]];">
+                  <span hidden$="[[_fitEventSpan(event, app.isPhoneSize)]]">
+                    [[event.name]]
+                    <span class="-off-screen">[[_toTwelveHourWithMeridiem(event.start)]] to [[_toTwelveHourWithMeridiem(event.end)]]</span>
+                  </span>
+                </div>
+              </div>
+              <template is="dom-if" if="[[_checkZero('right', event)]]">
+                <div style$="[[_calculateRightSpanStyle(event)]]" aria-hidden$="[[_fitEventSpan(event, app.isPhoneSize)]]">
+                  <div class="filler">
+                    <span class="after-text" hidden$="[[_fitAfterSpan(event, app.isPhoneSize)]]">
+                      [[event.name]]
+                      <span class="-off-screen">[[_toTwelveHourWithMeridiem(event.start)]] to [[_toTwelveHourWithMeridiem(event.end)]]</span>
+                    </span>
+                  </div>
+                </div>
+              </template>
+              <div class="row-end"></div>
+            </div>
+          </template>
+          <div layout horizontal justified aria-hidden="true">
+            <div class="row-label" hidden$="[[app.isPhoneSize]]"></div>
+            <template is="dom-repeat" items="[[_calculateTime(start, end)]]" as="hour">
+              <div flex class$="agenda-time [[_isEveryOther(hour, app.isPhoneSize)]]">
+                <span class$="agenda-hour [[_computeDoubleDigit(hour)]]"
+                      hidden$="[[_isEveryOther(hour, app.isPhoneSize)]]">[[hour]]</span>
+              </div>
+              <div flex></div>
+            </template>
+            <div class$="row-end agenda-time [[_isEveryOther(end, app.isPhoneSize)]]">
+              <span class="agenda-hour">[[_toTwelveHour(end, app.isPhoneSize)]]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script>
+    (function() {
+      Polymer({
+        is: 'io-agenda',
+        properties: {
+          /**
+           * App logic
+           */
+          app: {
+            type: Object
+          },
+
+          /**
+           * Label for the day e.g. Wednesday May 18
+           */
+          day: {
+            type: String
+          },
+
+          /**
+           * Highlight color in hex format
+           */
+          color: {
+            type: String,
+            value: "#03a9f4"
+          },
+
+          /**
+           * Array of event objects in the following format
+           * {
+           *   name: 'name of event',
+           *   start: start time as a 24h number ie 8.5 for 8:30am 13.5 for 1:30pm
+           *   end: end time in the same format
+           * }
+           */
+          events: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          },
+
+          /**
+           * Start time of agenda as a 24h number ie 8.5 for 8:30am 13.5 for 1:30pm
+           */
+          start: {
+            type: Number
+          },
+
+          /**
+           * End time of agenda as 24h number
+           */
+          end: {
+            type: Number
+          }
+        },
+
+        /**
+         * Returns the prefixed flex span string
+         *
+         * @param span number of colums to span
+         * @return {string} style string
+         * @private
+         */
+        _generateFlexStyle: function(span) {
+          return '-ms-flex: ' + span + ';' + '-webkit-flex: ' + span + ';' +
+            'flex: ' + span;
+        },
+
+        /**
+         * Calculate the colspan of the left buffer
+         *
+         * @param event event to render
+         * @returns {number} number of columns to span
+         * @private
+         */
+        _calculateLeftSpan: function(event) {
+          return (event.start - this.start) * 2;
+        },
+
+        /**
+         * Calculates left span style
+         * @param event
+         * @returns {string}
+         * @private
+         */
+        _calculateLeftSpanStyle: function(event) {
+          return this._generateFlexStyle(this._calculateLeftSpan(event));
+        },
+        /**
+         * Calculate the colspan of the event
+         * @param event
+         * @returns {number}
+         * @private
+         */
+        _calculateEventSpanStyle: function(event) {
+          return this._generateFlexStyle((event.end - event.start) * 2);
+        },
+
+        /**
+         * Calculate the colspan of the right buffer
+         *
+         * @param event
+         * @returns {number}
+         * @private
+         */
+        _calculateRightSpan: function(event) {
+          return (this.end - event.end) * 2;
+        },
+
+        /**
+         * Calculates right span style
+         * @param event
+         * @returns {string}
+         * @private
+         */
+        _calculateRightSpanStyle: function(event) {
+          return this._generateFlexStyle(this._calculateRightSpan(event));
+        },
+
+        /**
+         * Creates the array of time labels
+         *
+         * @param start agenda start time
+         * @param end agenda end time
+         * @returns {Array} array of time labels
+         * @private
+         */
+        _calculateTime: function(start, end) {
+          var hours = [];
+          for (var i = start; i < end; i++) {
+            if (i == 12) {
+              hours.push('12P');
+            } else {
+              hours.push(i % 12);
+            }
+          }
+          return hours;
+        },
+
+        /**
+         * Converts 24H to 12H for last label
+         * @param hour hour to convert
+         * @param isPhoneSize boolean true if phone sized
+         * @return {Number} 12 hour converted number or blank if mobile
+         */
+        _toTwelveHour: function(hour, isPhoneSize) {
+          if (isPhoneSize && hour % 2 == 0) {
+            return '';
+          } else {
+            return hour > 12 ? hour - 12 : hour;
+          }
+        },
+
+        /**
+         * Converts 24H to 12H for aria label with full am/pm meridiem and decimal converted to minutes.
+         * @param hour hour to convert
+         * @return {String} 12 hour converted string with am/pm meridiem
+         */
+        _toTwelveHourWithMeridiem: function(hour) {
+          var hoursMinutes = hour.toString().split('.');
+          var twelveHours = Math.floor(hour > 12 ? hour - 12 : hour);
+          var minutes = hoursMinutes.length > 1 ? ':' + Math.floor(('.' + hoursMinutes[1]) * 60) : '';
+          var meridiem = hour >= 12 ? 'PM' : 'AM';
+
+          if (twelveHours === 0) {
+            twelveHours = hour >= 12 ? 12 : 1;
+          }
+
+          return twelveHours + minutes + meridiem;
+        },
+
+        /**
+         * Returns true if the colspan is > 0
+         *
+         * @param side left or right
+         * @param event event to render
+         * @returns {boolean} true if colspan is > 0
+         * @private
+         */
+        _checkZero: function(side, event) {
+          if (side === 'left') {
+            return this._calculateLeftSpan(event) > 0;
+          } else {
+            return this._calculateRightSpan(event) > 0;
+          }
+        },
+
+        /**
+         * Returns true when viewport is mobile device and for every other hour
+         * @param hour
+         * @param isPhoneSize true if phone sized
+         * @returns {boolean}
+         * @private
+         */
+        _isEveryOther: function(hour, isPhoneSize) {
+          if (isPhoneSize) {
+            return hour % 2 === 0 || hour === '12P';
+          } else {
+            return false;
+          }
+        },
+
+        /**
+         * Returns double-digit if the number is a double digit
+         *
+         * @param hour
+         * @returns {string}
+         * @private
+         */
+        _computeDoubleDigit: function(hour) {
+          if (hour > 9) {
+            return 'double-digit';
+          }
+        },
+
+
+        /**
+         * Returns true if the event name is longer than the end time - start time * 3.5
+         * @param event
+         * @param isPhoneSize true if is phone sized
+         * @returns {boolean}
+         * @private
+         */
+        _fitEventSpan: function(event, isPhoneSize) {
+          return (!isPhoneSize ||
+          (event.name.length >= (event.end - event.start) * 3.5 && !(event.end === this.end)));
+        },
+
+        /**
+         * Returns true if the event length is < end - start * 3.5
+         * (if the word doesn't fit in the highlighted block)
+         *
+         * @param event
+         * @param isPhoneSize true if is phone sized
+         * @returns {boolean}
+         * @private
+         */
+        _fitAfterSpan: function(event, isPhoneSize) {
+          return !isPhoneSize || event.name.length < (event.end - event.start) * 3.5;
+        }
+      })
+    })();
+  </script>
+</dom-module>

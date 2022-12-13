@@ -1,0 +1,56 @@
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#fab {
+  z-index: 1;
+}
+
+.card-content.box:hover {
+  z-index: 2;
+}
+
+.fullvideo_thumbnail {
+  z-index: 6;
+}
+
+.fullvideo__container {
+  z-index: 7;
+}
+
+io-gallery {
+  z-index: 8;
+}
+
+.masthead {
+  z-index: 9;
+}
+
+.navbar__overlay {
+  z-index: 10;
+}
+
+.header_subnav {
+  z-index: 11;
+}
+
+app-drawer {
+  z-index: 12;
+}
+
+#splash {
+  z-index: 13; // higher than anything
+}
+

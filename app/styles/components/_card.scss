@@ -1,0 +1,400 @@
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import '../base/color';
+@import '../base/layout';
+@import '../base/breakpoints';
+
+.card__container {
+  margin: 0 auto;
+  max-width: 1600px;
+}
+
+.card {
+  display: block;
+
+  .card-content {
+    padding: 24px;
+
+    &.box {
+      height: 105vw;
+      width: 100%;
+
+      > a {
+        display: block;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      &.box-full {
+        width: 100%;
+      }
+    }
+
+    &.fullbleed {
+      padding: 0;
+    }
+
+    &.bg-cyan-300,
+    &.bg-cyan-400 {
+      a {
+        color: $color-cyan-card-link;
+        outline-color: #fff;
+
+        &:hover,
+        &:focus {
+          color: $color-cyan-card-link-hover;
+        }
+      }
+    }
+
+    &.card-content--no-padding-top {
+      padding-top: 0 !important;
+    }
+
+    &.card-content--no-padding-right {
+      padding-right: 0 !important;
+    }
+  }
+
+  .card__title {
+    padding-bottom: 12px;
+  }
+
+  .card__photo {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+  }
+
+  .card__sub-title {
+    line-height: 28px;
+  }
+
+  .-no-bottom-margin,
+  .-no-bottom-margin p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+}
+
+.card--force-compositing {
+  transform: translateZ(0);
+}
+
+.card--top-left-clip {
+  border-top-left-radius: inherit;
+}
+.card--top-right-clip {
+  border-top-right-radius: inherit;
+}
+.card--bottom-left-clip {
+  border-bottom-left-radius: inherit;
+}
+.card--bottom-right-clip {
+  border-bottom-right-radius: inherit;
+}
+
+.card--allow-a-wrap a {
+  white-space: normal;
+}
+
+@media (max-width: $phone-breakpoint-min + 1) {
+  .card {
+    .box.box-more-height-mobile {
+      height: 115vw;
+    }
+  }
+}
+
+@media (min-width: $tablet-breakpoint-min) {
+  .card {
+    .card-content {
+      padding: 24px;
+
+      h5 {
+        padding-right: 24px;
+      }
+
+      &.box {
+        width: 50%;
+        height: 50vw;
+        transition: box-shadow 120ms ease-out;
+
+        &:hover {
+          box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.25),
+                      0px 2px 3px 0px rgba(0, 0, 0, 0.25);
+        }
+      }
+    }
+
+    .card__title p {
+      margin-bottom: 12px;
+    }
+
+  }
+}
+
+@media (min-width: $tablet-breakpoint-min) and (max-width: 960px) {
+  .card {
+    .card-content {
+      h5 {
+        font-size: 16px;
+      }
+      h2 {
+        @include typo-card();
+      }
+    }
+    h3,
+    .card__title p,
+    .card__sub-title {
+      @include typo-card();
+    }
+  }
+}
+
+@media (min-width: 961px) {
+  $container-max-width: 960px;
+
+  .card__container {
+    max-width: $container-max-width;
+  }
+  #fab {
+    .card__container {
+      max-width: $container-max-width + 56px * 3;
+    }
+  }
+
+  .card {
+    border-radius: 3px;
+
+    .card-content {
+      padding: 32px;
+
+      h2 {
+        @include typo-card-large();
+      }
+
+      h5 {
+        padding-right: 32px;
+      }
+
+      &.box {
+        height: 480px;
+      }
+    }
+
+    h3,
+    .card__title p,
+    .card__sub-title {
+      @include typo-card();
+    }
+  }
+}
+
+@media (min-width: 1305px) {
+  $container-max-width: 1160px;
+
+  .card__container {
+    max-width: $container-max-width;
+  }
+  #fab {
+    .card__container {
+      max-width: $container-max-width + 56px * 3;
+    }
+  }
+
+  .card {
+    .card-content {
+      padding: 40px;
+
+      h5 {
+        padding-right: 40px;
+      }
+
+      &.box {
+        height: 580px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1501px) {
+  $container-max-width: 1280px;
+
+  .card__container {
+    max-width: $container-max-width;
+  }
+  #fab {
+    .card__container {
+      max-width: $container-max-width + 56px * 3;
+    }
+  }
+
+  .card {
+    .card-content {
+      padding: 48px;
+
+      h5 {
+        padding-right: 48px;
+      }
+
+      &.box {
+        height: 640px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1601px) {
+  $container-max-width: 1440px;
+
+  .card__container {
+    max-width: $container-max-width;
+  }
+  #fab {
+    .card__container {
+      max-width: $container-max-width + 56px * 3;
+    }
+  }
+
+  .card {
+    .card-content {
+      &.box {
+        height: 720px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1801px) {
+  $container-max-width: 1600px;
+
+  .card__container {
+    max-width: $container-max-width;
+  }
+  #fab {
+    .card__container {
+      max-width: $container-max-width + 56px * 3;
+    }
+  }
+
+  .card {
+    .card-content {
+      &.box {
+        height: 800px;
+      }
+    }
+  }
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  .card {
+    .card-content {
+      padding-bottom: $desktopKeyline;
+      padding-top: $desktopKeyline;
+      padding-right: $desktopKeyline;
+
+      h2 {
+        @include typo-card();
+      }
+    }
+    h3,
+    .card__title p,
+    .card__sub-title {
+      @include typo-card();
+    }
+    h5,
+    p {
+      font-size: 20px;
+      line-height: 28px;
+      padding-right: $desktopKeyline;
+    }
+    h5 p {
+      margin-bottom: 12px;
+    }
+    .card__title p {
+      margin-bottom: 24px;
+    }
+  }
+}
+
+@media (max-width: $phone-breakpoint-mid - 1) {
+  .card {
+    h3,
+    .card__sub-title {
+      @include typo-card();
+    }
+    h5,
+    p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+
+@media (max-width: $phone-breakpoint-mid - 1) and (min-width: $phone-breakpoint-min-mid-b + 1) {
+  .card {
+    h3,
+    .card__title,
+    .card__title p,
+    .card__sub-title {
+      font-size: 24px;
+    }
+    h5,
+    p {
+      font-size: 20px;
+      line-height: 28px;
+    }
+    .card__title p {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+@media (min-width: $phone-breakpoint-min-mid-b) and (max-width: $phone-breakpoint-max) {
+  .card {
+    .card-content {
+      &.box {
+        height: 75vw;
+        width: 100vw;
+      }
+    }
+  }
+}
+
+@media (max-width: $phone-breakpoint-min-mid-b) {
+  .card {
+    .card-content {
+      padding-right: 16px;
+      h2 {
+        line-height: 32px;
+      }
+    }
+    h3,
+    .card__title,
+    .card__title p,
+    .card__sub-title {
+      @include typo-mobile-intro-card();
+    }
+    .card__title p {
+      margin-bottom: 14px;
+    }
+  }
+}
+

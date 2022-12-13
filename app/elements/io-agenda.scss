@@ -1,0 +1,139 @@
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@import '_elements';
+
+$bottom-buffer: 25px;
+
+:host {
+  display: block;
+  position: relative;
+}
+
+#agenda-content {
+  border-collapse: collapse;
+  overflow: visible;
+  position: relative;
+  width: 100%;
+}
+
+.filler {
+  height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.no-bottom-padding {
+  padding-bottom: 0 !important;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.row-label {
+  min-width: 150px;
+}
+
+.row-height {
+  height: 36px;
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.row-end {
+  min-width: 1.5em;
+  margin-right: -1em;
+}
+
+.card__container:not(.day-0) {
+  h4 {
+    border-top: 1px solid $color-grey-300;
+    padding-top: 40px;
+  }
+
+  .card-content:first-child {
+    padding-top: 0;
+  }
+}
+
+.agenda-time:before {
+  content: ' ';
+  background: $color-bluegrey-200;
+  width: 1px;
+  position: absolute;
+  top: 32px;
+  bottom: calc(32px + #{$bottom-buffer});
+  z-index: -1;
+}
+
+.agenda-hour {
+  margin-left: -0.25em;
+  color: $color-agenda-hour;
+}
+
+.after-text {
+  height: 100%;
+  display: inline-block;
+  background-color: #fff;
+}
+
+@media (min-width: 961px) {
+  .agenda-time:before {
+    top: 32px;
+    bottom: calc(32px + #{$bottom-buffer});
+  }
+
+  .agenda-time.true:before {
+    bottom: calc(37px + #{$bottom-buffer});
+  }
+}
+
+@media (min-width: 1305px) {
+  .agenda-time:before {
+    top: 40px;
+    bottom: calc(40px + #{$bottom-buffer});
+  }
+
+  .agenda-time.true:before {
+    bottom: calc(45px + #{$bottom-buffer});
+  }
+}
+
+@media (min-width: 1501px) {
+  .agenda-time:before {
+    top: 48px;
+    bottom: calc(48px + #{$bottom-buffer});
+  }
+
+  .agenda-time.true:before {
+    bottom: calc(52px + #{$bottom-buffer});
+  }
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  .agenda-hour.double-digit{
+    margin-left: -0.5em;
+  }
+
+  .agenda-time.true:before {
+    bottom: calc(29px + #{$bottom-buffer});
+  }
+}

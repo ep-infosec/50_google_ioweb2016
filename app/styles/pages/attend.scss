@@ -1,0 +1,359 @@
+// Copyright 2016 Google Inc. All rights reserved.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+$name: 'page-attend';
+
+@import '../base/vars';
+@import '../base/layout';
+@import '../base/breakpoints';
+@import '../base/color';
+@import '../base/typography';
+
+
+##{$name} {
+
+  io-attend-page {
+    h4 {
+      font-size: 24px;
+      margin-top: 4px;
+      margin-bottom: 8px;
+    }
+
+    .card-content {
+      min-height: 320px;
+
+      &:nth-of-type(1) {
+        @media (max-width: 340px) {
+          height: auto;
+          padding-right: 16px;
+        }
+      }
+
+      p {
+        @include typo-heading-2();
+        line-height: 32px;
+
+        @media (max-width: $tablet-breakpoint-max) {
+          @include typo-mobile-intro-card();
+        }
+      }
+
+      .-off-screen-focus:focus {
+        position: static !important;
+      }
+    }
+  }
+
+  .card__photo {
+    background-size: cover;
+    padding: 0;
+
+    a {
+      position: absolute;
+      font-size: 12px;
+      bottom: 10px;
+      left: 20px;
+    }
+  }
+
+  .card__footerlink {
+    @include typo-button();
+  }
+
+  .details {
+    padding: 0;
+  }
+
+  .details--wrapper {
+    border-bottom: 1px solid $color-grey-300;
+    display: flex;
+    flex-direction: row;
+    padding: 66px 0;
+    max-width: 760px;
+    margin: 0 auto;
+
+    @media (max-width: $phone-breakpoint-max) {
+      padding: 48px 16px;
+      width: 100%;
+    }
+
+    @media (max-width: $phone-breakpoint-mid) {
+      display: block;
+    }
+  }
+
+  .details--text-container {
+    width: 100%;
+  }
+
+  .details--info-block {
+    margin-bottom: 24px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+
+      .detail__text:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    > *:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    .detail__link, a {
+      color: $color-cyan-800;
+    }
+  }
+
+  .detail__title {
+    @include typo-heading-2();
+    line-height: 32px;
+    margin-bottom: 18px;
+  }
+
+  .detail__heading {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 32px;
+    margin: 40px 0 12px 0;
+  }
+
+  .detail__text {
+    margin-bottom: 18px;
+
+    &.no-bottom-margin {
+      margin-bottom: 0;
+    }
+  }
+
+  .details--title {
+    margin-bottom: 24px;
+  }
+
+  .details--icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 32px 0 0;
+
+    @media (max-width: $phone-breakpoint-max) {
+      width: 64px;
+      height: 64px;
+      margin: 0 24px 0 0;
+    }
+
+    @media (max-width: $phone-breakpoint-mid) {
+     margin: 0 0 24px 0;
+    }
+  }
+
+  .io__hash {
+    @media (max-width: $tablet-breakpoint-min) {
+      height: 400px;
+      background-size: 297px 115px;
+    }
+  }
+
+  .subpage-event {
+
+    .card-content h5 {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    .card-map {
+      background: transparent url(../images/attend/map-card.jpg) center center no-repeat;
+      background-size: cover;
+    }
+
+    .sandbox {
+      @media (max-width: $phone-breakpoint-max) {
+        padding-top: 64px;
+      }
+
+      .details--icon {
+        background: transparent url(../images/attend/sandbox-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .code-labs {
+      .details--icon {
+        background: transparent url(../images/attend/code-labs-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .office-hours {
+      .details--icon {
+        background: transparent url(../images/attend/office-hours-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .after-hours {
+      border-bottom: none !important;
+
+      .details--icon {
+        background: transparent url(../images/attend/after-hours-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+
+      .details--text-container {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &.details--wrapper {
+        border-bottom: none;
+      }
+
+      .detail__text {
+        margin-bottom: 0;
+      }
+    }
+
+    .card-after-hours {
+      background: transparent url(../images/attend/after-hours.jpg) center center no-repeat;
+      background-size: cover, cover;
+    }
+  }
+
+  .subpage-travel {
+    .card__photo {
+      background: transparent url(../images/attend/io-attending-landscape.jpg) center center no-repeat;
+      background-size: cover;
+    }
+
+    .airports {
+      @media (max-width: $phone-breakpoint-max) {
+        padding-top: 64px;
+      }
+
+      .details--icon {
+        background: transparent url(../images/attend/airplane-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .transit {
+      .details--icon {
+        background: transparent url(../images/attend/tram-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .parking {
+      .details--icon {
+        background: transparent url(../images/attend/parking-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .hotels {
+      .details--icon {
+        background: transparent url(../images/attend/hotels-icon.svg) center center no-repeat;
+        background-size: 100%;
+      }
+
+      .details--text-container {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &.details--wrapper {
+        border-bottom: none;
+      }
+
+      .detail__text {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .map-container {
+    height: 480px;
+    background-color: #b3d1ff;
+    position: relative;
+
+    &::after {
+      content: 'Loading...';
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    iframe {
+      border: none;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .hotel__map {
+    // Ensure that there's room around the map to scroll on touch devices.
+    @media (max-width: $desktop-breakpoint-min + 50) {
+      max-width: 90%;
+      margin: 0 auto 0 auto;
+    }
+  }
+
+  .venue__map {
+    background: transparent;
+    bottom: 0;
+    box-shadow: none;
+    color: #fff;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+
+  .venue__embed {
+    height: 80%;
+    margin: 0 auto;
+    padding: 0 !important;
+    width: 90%;
+  }
+
+  .dialog-content {
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: $phone-breakpoint-max) {
+    #subpage-tabs {
+      width: 100%;
+    }
+  }
+
+  .shuttle-button {
+    color: $color-cyan-800;
+    font-weight: 500;
+    margin: 16px 0 72px 0;
+    width: auto;
+
+    &:hover {
+      // --shadow-elevation-6dp from paper-styles/shadows.html to match [elevation="3"] keyboard focus styles.
+      box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
+                  0 1px 18px 0 rgba(0, 0, 0, 0.12),
+                  0 3px 5px -1px rgba(0, 0, 0, 0.4);
+    }
+  }
+}

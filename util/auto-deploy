@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Copyright 2016 Google Inc. All Rights Reserved.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+# fail on errors
+set -e
+
+PROJECT_ID=io-webapp-staging
+BRANCH_REGEX="^(master|phase[1-9])$"
+DIR=$(dirname $0)
+
+if [ -n "$CI_PULL_REQUEST" ]; then
+  echo "Won't deploy on pull requests."
+  exit 0
+fi
+if [[ ! "$CI_BRANCH" =~ $BRANCH_REGEX ]]; then
+  echo "$CI_BRANCH branch doesn't match $BRANCH_REGEX. Skip deploy."
+  exit 0;
+fi
+
+# decrypt service account key used to deploy the app
+# and activate gcloud to use it
+openssl aes-256-cbc -d \
+  -in $(dirname $0)/drone.json.enc \
+  -out drone.json \
+  -k $PASSPHRASE
+gcloud auth activate-service-account --key-file drone.json
+ACCESS_TOKEN=$(gcloud auth print-access-token)
+
+# TODO: remove this and vendor packages instead using GO15VENDOREXPERIMENT.
+gulp godeps
+# decrypt server configs
+gulp decrypt --pass $PASSPHRASE
+# make sure we have the right config file
+cp backend/server.config.stage dist/backend/server.config
+# deploy the app as a version the original git push was made to
+appcfg.py update dist/backend \
+  --skip_sdk_update_check \
+  --oauth2_access_token="$ACCESS_TOKEN" \
+  -A $PROJECT_ID \
+  -V $CI_BRANCH

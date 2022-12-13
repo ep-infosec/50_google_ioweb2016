@@ -1,0 +1,102 @@
+<!--
+Copyright 2015 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google I/O 2016 - Notification Permissions</title>
+
+  <!-- See http://updates.html5rocks.com/2014/11/Support-for-theme-color-in-Chrome-39-for-Android -->
+  <meta name="theme-color" content="#546E7A">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/pages/permissions.css">
+</head>
+<body id="page-permissions">
+
+<div id="permissions">
+
+  <section class="page__section">
+    <img src="images/io-logo-grey.png" class="iologo">
+  </section>
+
+  <div class="card__container">
+    <div class="card">
+      <div class="card-content">
+        <h2>You need to change your page permission settings before you can receive notifications.</h2>
+      </div>
+      <div class="card-content link-spacing">
+        <a href="https://support.google.com/chrome/answer/2392971" data-track-link="permissions-chrome-android">
+          Android Chrome Instructions
+        </a>
+        <a href="https://support.google.com/chrome/answer/6148059" data-track-link="permissions-chrome-desktop">
+          Desktop Chrome Instructions
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>
+window.ENV = location.host.match('localhost') ? 'dev' : 'prod';
+
+// Initializes the analytics.js command queue.
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+// Creates the tracker.
+ga('create', {
+  trackingId: window.ENV === 'prod' ? 'UA-58124138-3' : 'UA-58124138-2',
+  cookieDomain: 'auto',
+  siteSpeedSampleRate: 10, // 10% of users.
+});
+
+ga('send', 'pageview');
+
+document.addEventListener('click', function(e) {
+  var getLinkParent = function(element) {
+    while (element.nodeName.toLowerCase() !== 'a') {
+      if (element === document) {
+        return;
+      }
+      element = element.parentNode;
+    }
+    return element;
+  };
+
+  var redirectToLinkAddress = function() {
+    window.location = link.href;
+  };
+
+  // Find the link that was clicked.
+  var link = getLinkParent(e.target);
+
+  if (link && link.hasAttribute('data-track-link')) {
+    e.preventDefault();
+
+    // Record outbound link in GA.
+    ga('send', 'event', 'link', 'click', link.getAttribute('data-track-link'), {
+      hitCallback: redirectToLinkAddress
+    });
+    setTimeout(redirectToLinkAddress, 2000);
+  }
+});
+</script>
+
+</body>
+</html>

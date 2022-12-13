@@ -1,0 +1,56 @@
+{
+  "env": "dev",
+  "dir": "app",
+  "addr": "127.0.0.1:8080",
+  "prefix": "/io2016",
+  "schedule": {
+    "start": "2016-05-18T10:00:00-07:00",
+    "timezone": "America/Los_Angeles",
+    "manifest": "https://storage.googleapis.com/io2015-data.appspot.com/manifest_v1.json"
+  },
+  "firebase": {
+    "secret": "FIREBASE_SECRET",
+    "shards": [
+      "DATABASE_SHARD_URL",
+      "DATABASE_SHARD_URL",
+      "DATABASE_SHARD_URL"
+    ]
+  },
+  "ioExtFeedUrl": "https://spreadsheets.google.com/feeds/list/SHEET/WORKSHEET/private/full",
+  "synct": "any-secure-random-string-will-do",
+  "google": {
+    "tokenUrl": "https://accounts.google.com/o/oauth2/token",
+    "serviceAccount": {
+      "private_key": "-----BEGIN PRIVATE KEY----- content -----END PRIVATE KEY-----\n",
+      "client_email": "example@developer.gserviceaccount.com"
+    },
+    "auth": {
+      "client": "web-app client ID"
+    },
+    "gcm": {
+      "sender": "GCP project *number*",
+      "key": "key-for-server-applications",
+      "endpoint": "https://android.googleapis.com/gcm/send"
+    }
+  },
+  "twitter": {
+    "accounts": ["googledevs", "google", "android", "sundarpichai"],
+    "filter": "#io16",
+    "key": "an-app-key",
+    "secret": "very-secret",
+    "tokenUrl": "https://api.twitter.com/oauth2/token",
+    "timelineUrl": "https://api.twitter.com/1.1/statuses/user_timeline.json"
+  },
+  "whitelist": [],
+  "survey": {
+    "id": "survey-id",
+    "reg": "registrant-id",
+    "key": "api-key",
+    "endpoint": "https://eventpoint-gschedule2016-services.azurewebsites.net/eval/save",
+    "smap": {},
+    "q1": "q1",
+    "q2": "q2",
+    "q3": "q3",
+    "q4": "q4"
+  }
+}

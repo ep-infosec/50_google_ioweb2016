@@ -1,0 +1,78 @@
+/**
+ * Copyright 2015 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+$name: 'page-widget';
+
+@import '../base/color';
+@import '../base/breakpoints';
+@import '../base/layout';
+
+##{$name} {
+
+$rightMargin: 12px;
+
+footer {
+  margin-top: 0;
+}
+
+.card-links {
+  padding-top: $desktopKeyline;
+}
+
+.cyan-link {
+  color: $color-cyan-800;
+  text-transform: uppercase;
+}
+
+.customize__container {
+  margin-top: 40px;
+}
+
+.customize__area {
+  margin-bottom: 24px;
+}
+
+paper-radio-group {
+  margin-top: $mobileKeyline;
+}
+
+paper-radio-button {
+  padding: 0;
+  margin-right: $rightMargin;
+  margin-bottom: $mobileKeyline;
+}
+
+iron-label {
+  margin-right: $rightMargin * 2;
+}
+
+#gadgetfaq {
+  overflow: auto;
+}
+
+.footer__text {
+  margin-top: $desktopKeyline;
+}
+
+@media (max-width: $phone-breakpoint-max) {
+  paper-dialog {
+    margin: 0;
+  }
+}
+
+
+}
